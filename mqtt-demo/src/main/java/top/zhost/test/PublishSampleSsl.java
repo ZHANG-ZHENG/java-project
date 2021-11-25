@@ -1,23 +1,29 @@
 package top.zhost.test;
 
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import top.zhost.test.SubscribeSampleSsl.MyTM;
+
 /**
  *发布端
  */
-public class PublishSample {
+public class PublishSampleSsl {
     public static void main(String[] args) {
 
         String topic = "test";
-        String content = "hello zz 1";
+        String content = "hello zz 1zzzzz ssl "+System.currentTimeMillis();
         int qos = 1;
-        String broker = "tcp://sub.zhost.top:1883";
+        String broker = "ssl://itscreen.ruijie.com.cn:1884";
         String userName = "admin";
-        String password = "ruijie123";
+        String password = "Ruijie@Artemis";
         String clientId = "pubClient";
         // 内存存储
         MemoryPersistence persistence = new MemoryPersistence();
@@ -32,6 +38,22 @@ public class PublishSample {
             // 设置连接的用户名
             connOpts.setUserName(userName);
             connOpts.setPassword(password.toCharArray());
+            
+            try {
+                //ssl 连接 , 这里的 TrustManager 是自己实现的，没有去校验服务端的证书
+                TrustManager[] trustAllCerts = new TrustManager[1];
+                TrustManager trustManager = new MyTM();
+                trustAllCerts[0] = trustManager;
+                SSLContext sslContext = SSLContext.getInstance("SSL");
+                sslContext.init(null, trustAllCerts, null);
+                SocketFactory factory = sslContext.getSocketFactory();
+                connOpts.setSocketFactory(factory);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+            
             // 建立连接
             sampleClient.connect(connOpts);
             // 创建消息
