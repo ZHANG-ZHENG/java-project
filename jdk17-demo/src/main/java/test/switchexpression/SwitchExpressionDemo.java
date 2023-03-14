@@ -11,7 +11,7 @@ public class SwitchExpressionDemo {
             case "Friday" -> 5;
             case "Saturday", "Sunday" -> {
                 System.out.println("It's a weekend!");
-                yield 6;
+                yield 6;//Return within switch expressions not permitted
             }
             default -> throw new IllegalArgumentException("Invalid day of week: " + dayOfWeek);
         };
