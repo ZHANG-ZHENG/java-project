@@ -1,0 +1,4 @@
+﻿rabbitmq消息中间件工程
+
+docker搭建rabbitmq
+http://note.youdao.com/noteshare?id=e8c80f0eb8dc057960edf149dc9d5d92&sub=2B1951DB62BF4E2D8C9DBBDE2F644F55
