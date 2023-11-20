@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
@@ -15,7 +16,8 @@ public class JwtExample {
 
     // Éú³ÉJWT
     public static String generateJwt() {
-    	System.out.println(key.toString());
+    	//System.out.println(Encoders.BASE64.encode(key.getEncoded()));
+    	//Key key2 = Keys.hmacShaKeyFor(key.getEncoded());
 		Claims claims = Jwts.claims().setSubject("userclaims");
 		claims.put("userId", "userId123");
 		claims.put("appType", "appType123");
