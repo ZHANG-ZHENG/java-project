@@ -26,6 +26,7 @@
 <!--      <module>QqServer</module>-->
 <!--      <module>secret-key</module>-->
 <!--      <module>quartz</module>-->
-      <module>jpcap-demo</module>
-    </modules>  
-</project>
+<!--      <module>jpcap-demo</module>-->
+        <module>pdf-demo</module>
+    </modules>
+        </project>
