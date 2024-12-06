@@ -1,3 +1,5 @@
+*.class
+*.h
 # kdiff3 ignore
 *.orig
 
