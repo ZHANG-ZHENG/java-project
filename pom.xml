@@ -27,6 +27,7 @@
 <!--      <module>secret-key</module>-->
 <!--      <module>quartz</module>-->
 <!--      <module>jpcap-demo</module>-->
-        <module>pdf-demo</module>
+<!--      <module>pdf-demo</module>-->
+        <module>caffeine-demo</module>
     </modules>
         </project>
