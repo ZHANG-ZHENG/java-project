@@ -1,8 +1,12 @@
 package demo.bean;
 
+import java.util.List;
+
 public class FileBean {
 
     private String filePath;
+
+    private List<FindStringBean> findStringList;
 
     public String getFilePath() {
         return filePath;
@@ -10,5 +14,13 @@ public class FileBean {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public List<FindStringBean> getFindStringList() {
+        return findStringList;
+    }
+
+    public void setFindStringList(List<FindStringBean> findStringList) {
+        this.findStringList = findStringList;
     }
 }
