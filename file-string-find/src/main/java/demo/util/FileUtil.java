@@ -41,6 +41,9 @@ public class FileUtil {
         List<FindStringBean> findStringList = new ArrayList<>();
         fileBean.setFindStringList(findStringList);
 
+        List<FileBean> fileFromList = new ArrayList<>();
+        fileBean.setFileFromList(fileFromList);
+
         String filePath = fileBean.getFilePath();
         File file = new File(filePath);
         fileBean.setFileName(file.getName());
@@ -53,21 +56,24 @@ public class FileUtil {
 
             // 匹配中文字符的正则表达式
             Pattern patternHan = Pattern.compile("\\p{Script=Han}+");
+            // 查找 t('xxxx.xxxxx'） 或t("xxxx.xxxxx"）
+            Pattern patternT = Pattern.compile("t\\(['\"]([^'\"]*\\.[^'\"]*)['\"]\\)");
+            // 查找包引用
+            Pattern patternFrom = Pattern.compile("from\\s+['\"](.*?)['\"]");
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
-                Matcher matcherHan = patternHan.matcher(line);
 
                 if (line.contains("// ") || (line.contains("<!-- ") && line.contains(" -->"))) {
                     continue;
                 }
-
+                Matcher matcherHan = patternHan.matcher(line);
                 while (matcherHan.find()) {
                     int start = matcherHan.start();
                     int end = matcherHan.end();
                     String chineseSequence = matcherHan.group();
-                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
-                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
+//                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
+//                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
 
                     FindStringBean findStringBean = new FindStringBean();
                     findStringBean.setStart(start + 1);
@@ -77,9 +83,66 @@ public class FileUtil {
                     findStringBean.setFindString(chineseSequence);
                     findStringList.add(findStringBean);
                 }
+
+                Matcher matcherT = patternT.matcher(line);
+                while (matcherT.find()) {
+                    int start = matcherT.start();
+                    int end = matcherT.end();
+                    String chineseSequence = matcherT.group();
+//                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
+//                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个)%n", start + 1, end, chineseSequence, chineseSequence.length());
+
+                    FindStringBean findStringBean = new FindStringBean();
+                    findStringBean.setStart(start + 1);
+                    findStringBean.setEnd(end);
+                    findStringBean.setLineIndex(lineNumber);
+                    findStringBean.setLineString(line);
+                    findStringBean.setFindString(chineseSequence);
+                    findStringList.add(findStringBean);
+                }
+
+
+                Matcher matcherFrom = patternFrom.matcher(line);
+
+                while (matcherFrom.find()) {
+                    String fromContent = matcherFrom.group(1);
+                    System.out.println(file.getName()+"引用: " + fromContent);
+                    FileBean fromFileBean = new FileBean();
+                    fromFileBean.setFileNameFrom(fromContent);
+                    fromFileBean.setFromFileLineIndex(lineNumber);
+
+                    String nodeModulesPath = "F:\\workspace\\workspace-security-cloud290\\ui\\node_modules\\" +fromContent;
+                    //System.out.println("nodeModulesPath: " + nodeModulesPath);
+                    File nodeModulesFile = new File(nodeModulesPath);
+                    if (nodeModulesFile.exists()) {
+                        System.out.println(file.getName()+"引用库文件: " + nodeModulesFile.getPath());
+                        fromFileBean.setFromType("公共依赖");
+                        fromFileBean.setFilePath(nodeModulesFile.getPath());
+
+                        fileBean.getFileFromList().add(fromFileBean);
+                        continue;
+                    }
+
+                    if (fromContent.startsWith("@")) {
+                        String fromContentAt = fromContent.replace("@", "F:\\workspace\\workspace-security-cloud290\\ui\\src\\");
+                        System.out.println(file.getName()+"引用路径: " + fromContentAt);
+                    }
+                    Path absolutePath = resolveRelativePath(fileBean.getFilePath(), fromContent);
+                    System.out.println(file.getName()+"引用路径: " + absolutePath);
+
+                    fileBean.getFileFromList().add(fromFileBean);
+                }
             }
         } catch (IOException e) {
             System.err.println("读取文件时出错: " + e.getMessage());
         }
+    }
+
+    private static Path resolveRelativePath(String baseFilePath, String relativeReference) {
+        // 获取已知文件的父目录路径
+        Path basePath = Paths.get(baseFilePath).getParent();
+        // 解析相对路径
+        Path resolvedPath = basePath.resolve(relativeReference).normalize();
+        return resolvedPath.toAbsolutePath();
     }
 }
