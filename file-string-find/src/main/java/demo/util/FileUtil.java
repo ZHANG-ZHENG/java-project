@@ -4,6 +4,7 @@ import demo.bean.FileBean;
 import demo.bean.FindStringBean;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,22 +42,31 @@ public class FileUtil {
         fileBean.setFindStringList(findStringList);
 
         String filePath = fileBean.getFilePath();
+        File file = new File(filePath);
+        fileBean.setFileName(file.getName());
+//        if(!file.getName().equals("CustomDashboard.vue")) {
+//            return;
+//        }
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             int lineNumber = 0;
 
             // 匹配中文字符的正则表达式
-            Pattern pattern = Pattern.compile("\\p{Script=Han}+");
+            Pattern patternHan = Pattern.compile("\\p{Script=Han}+");
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
-                Matcher matcher = pattern.matcher(line);
+                Matcher matcherHan = patternHan.matcher(line);
 
-                while (matcher.find()) {
-                    int start = matcher.start();
-                    int end = matcher.end();
-                    String chineseSequence = matcher.group();
-                    System.out.printf("第 %d 行: %s%n", lineNumber, line);
+                if (line.contains("// ") || (line.contains("<!-- ") && line.contains(" -->"))) {
+                    continue;
+                }
+
+                while (matcherHan.find()) {
+                    int start = matcherHan.start();
+                    int end = matcherHan.end();
+                    String chineseSequence = matcherHan.group();
+                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
                     System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
 
                     FindStringBean findStringBean = new FindStringBean();
