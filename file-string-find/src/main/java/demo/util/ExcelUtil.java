@@ -16,37 +16,7 @@ public class ExcelUtil {
         try {
             Workbook workbook = new XSSFWorkbook();
 
-            // 创建工作表
-            Sheet sheet = workbook.createSheet("文件");
-
-            // 创建样式
-            CellStyle headerStyle = workbook.createCellStyle();
-            headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            Font headerFont = workbook.createFont();
-            headerFont.setBold(true);
-            headerStyle.setFont(headerFont);
-
-            // 填充数据
-            for (int i = 0; i < data.size(); i++) {
-                Row row = sheet.createRow(i);
-                List<String> rowData = data.get(i);
-
-                for (int j = 0; j < rowData.size(); j++) {
-                    Cell cell = row.createCell(j);
-                    cell.setCellValue(rowData.get(j));
-
-                    // 如果是表头行，应用样式
-                    if (i == 0) {
-                        cell.setCellStyle(headerStyle);
-                    }
-                }
-            }
-
-            // 自动调整列宽
-            for (int i = 0; i < data.get(0).size(); i++) {
-                sheet.autoSizeColumn(i);
-            }
+            createFileSheet(workbook, data, fileBeanMap);
 
             // 写入文件
             FileOutputStream outputStream = new FileOutputStream(filePath);
@@ -55,6 +25,42 @@ public class ExcelUtil {
 
         } catch (IOException e) {
             System.err.println("导出失败: " + e.getMessage());
+        }
+    }
+
+    private static void createFileSheet(Workbook workbook, List<List<String>> data, Map<String, FileBean> fileBeanMap){
+        // 创建工作表
+        Sheet sheet = workbook.createSheet("文件");
+        Sheet sheet2 = workbook.createSheet("字符2");
+
+        // 创建样式
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerStyle.setFont(headerFont);
+
+        // 填充数据
+        for (int i = 0; i < data.size(); i++) {
+            Row row = sheet.createRow(i);
+            List<String> rowData = data.get(i);
+
+            for (int j = 0; j < rowData.size(); j++) {
+                Cell cell = row.createCell(j);
+                cell.setCellValue(rowData.get(j));
+
+                // 如果是表头行，应用样式
+                if (i == 0) {
+                    cell.setCellStyle(headerStyle);
+                }
+            }
+        }
+
+        // 自动调整列宽
+        for (int i = 0; i < data.get(0).size(); i++) {
+            //sheet.autoSizeColumn(i);
+            sheet.setColumnWidth(i, 20 * 256); // 20个字符宽
         }
     }
 }
