@@ -106,7 +106,7 @@ public class FileUtil {
 
                 while (matcherFrom.find()) {
                     String fromContent = matcherFrom.group(1);
-                    System.out.println(file.getName()+"引用: " + fromContent);
+                    //System.out.println(file.getName()+"引用: " + fromContent);
                     FileBean fromFileBean = new FileBean();
                     fromFileBean.setFileNameFrom(fromContent);
                     fromFileBean.setFromFileLineIndex(lineNumber);
@@ -115,20 +115,39 @@ public class FileUtil {
                     //System.out.println("nodeModulesPath: " + nodeModulesPath);
                     File nodeModulesFile = new File(nodeModulesPath);
                     if (nodeModulesFile.exists()) {
-                        System.out.println(file.getName()+"引用库文件: " + nodeModulesFile.getPath());
+                        //System.out.println(file.getName()+"引用库文件: " + nodeModulesFile.getPath());
                         fromFileBean.setFromType("公共依赖");
                         fromFileBean.setFilePath(nodeModulesFile.getPath());
-
                         fileBean.getFileFromList().add(fromFileBean);
                         continue;
                     }
+                    System.out.println(file.getName()+"引用: " + fromContent);
+                    if (fromContent.startsWith(".")) {
+                        Path absolutePath = resolveRelativePath(fileBean.getFilePath(), fromContent);
+                        System.out.println(file.getName()+"引用路径: " + absolutePath.toAbsolutePath());
+                        fromFileBean.setFromType("内部依赖");
+                        fromFileBean.setFilePath(absolutePath.toString());
+                        fileBean.getFileFromList().add(fromFileBean);
+                        continue;
 
+                    }
                     if (fromContent.startsWith("@")) {
                         String fromContentAt = fromContent.replace("@", "F:\\workspace\\workspace-security-cloud290\\ui\\src\\");
                         System.out.println(file.getName()+"引用路径: " + fromContentAt);
+                        File fileAt = new File(fromContentAt);
+                        if (fileAt.exists()) {
+                            fromFileBean.setFromType("内部依赖");
+                            fromFileBean.setFilePath(fileAt.getPath());
+
+                        } else {
+                            fromFileBean.setFromType("内部依赖-文件缺失");
+                            fromFileBean.setFilePath(fileAt.getPath());
+                        }
+                        fileBean.getFileFromList().add(fromFileBean);
+                        continue;
                     }
                     Path absolutePath = resolveRelativePath(fileBean.getFilePath(), fromContent);
-                    System.out.println(file.getName()+"引用路径: " + absolutePath);
+                    System.out.println(file.getName()+"引用路径: " + absolutePath.toAbsolutePath().toString());
 
                     fileBean.getFileFromList().add(fromFileBean);
                 }
@@ -144,5 +163,33 @@ public class FileUtil {
         // 解析相对路径
         Path resolvedPath = basePath.resolve(relativeReference).normalize();
         return resolvedPath.toAbsolutePath();
+    }
+
+    public static String checkFileExistsWithoutExtension(String directory, String fileNameWithoutExtension) {
+        File dir = new File(directory);
+        File[] files = dir.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    String filename = file.getName();
+                    // 检查文件名是否匹配（不考虑后缀）
+                    if (filename.startsWith(fileNameWithoutExtension + ".")
+                            || filename.equals(fileNameWithoutExtension)) {
+                        return file.getAbsolutePath();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        String filePath = "F:\\workspace\\workspace-security-cloud290\\ui\\src\\api\\soc\\scene";
+        File file = new File(filePath);
+        System.out.println(file.getName());
+        System.out.println(file.getAbsoluteFile());
+        System.out.println(checkFileExistsWithoutExtension("F:\\workspace\\workspace-security-cloud290\\ui\\src\\api\\soc\\","scene"));
+        System.out.println(checkFileExistsWithoutExtension("F:\\workspace\\workspace-security-cloud290\\ui\\src\\api\\soc\\","scene.ts"));
     }
 }
