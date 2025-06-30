@@ -37,6 +37,6 @@ public class FileStringFind {
                 Arrays.asList("王五", "28", "男", "产品经理")
         );
         String savePath = "F:\\output.xlsx";
-        ExcelUtil.exportToExcel(data, savePath);
+        ExcelUtil.exportToExcel(data, savePath, fileBeanMap);
     }
 }

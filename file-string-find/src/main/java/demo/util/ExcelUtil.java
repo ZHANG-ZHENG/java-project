@@ -1,5 +1,6 @@
 package demo.util;
 
+import demo.bean.FileBean;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -7,15 +8,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ExcelUtil {
-    public static void exportToExcel(List<List<String>> data, String filePath) {
+    public static void exportToExcel(List<List<String>> data, String filePath, Map<String, FileBean> fileBeanMap) {
         // 创建工作簿
         try {
             Workbook workbook = new XSSFWorkbook();
 
             // 创建工作表
-            Sheet sheet = workbook.createSheet("Sheet1");
+            Sheet sheet = workbook.createSheet("文件");
 
             // 创建样式
             CellStyle headerStyle = workbook.createCellStyle();

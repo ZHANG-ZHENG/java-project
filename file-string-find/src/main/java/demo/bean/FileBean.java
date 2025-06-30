@@ -6,6 +6,8 @@ public class FileBean {
 
     private String filePath;
 
+    private String fileName;
+
     private List<FindStringBean> findStringList;
 
     public String getFilePath() {
@@ -22,5 +24,13 @@ public class FileBean {
 
     public void setFindStringList(List<FindStringBean> findStringList) {
         this.findStringList = findStringList;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
