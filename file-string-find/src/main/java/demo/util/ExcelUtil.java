@@ -120,7 +120,11 @@ public class ExcelUtil {
                 Cell cell2 = row.createCell(2);
                 cell2.setCellValue(findStringBean.getFindString());
                 Cell cell3 = row.createCell(3);
-                cell3.setCellValue(findStringBean.getZhString());
+                if (findStringBean.getZhString() != null) {
+                    cell3.setCellValue(findStringBean.getZhString());
+                } else {
+                    cell3.setCellValue(findStringBean.getFindString());
+                }
                 Cell cell4 = row.createCell(4);
                 cell4.setCellValue(findStringBean.getEnString());
                 Cell cell5 = row.createCell(5);

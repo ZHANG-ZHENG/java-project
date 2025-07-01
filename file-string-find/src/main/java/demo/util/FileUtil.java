@@ -66,6 +66,16 @@ public class FileUtil {
                     int start = matcherHan.start();
                     int end = matcherHan.end();
                     String chineseSequence = matcherHan.group();
+                    // 注释排除
+                    if(line.trim().equals("/** " + chineseSequence + " */")){
+                        continue;
+                    }
+                    if(line.trim().equals("<!-- " + chineseSequence + " -->")){
+                        continue;
+                    }
+                    if(line.trim().equals("// " + chineseSequence) || line.trim().equals("//" + chineseSequence)){
+                        continue;
+                    }
 //                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
 //                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
 
