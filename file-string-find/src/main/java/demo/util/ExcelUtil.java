@@ -18,8 +18,8 @@ public class ExcelUtil {
         try {
             Workbook workbook = new XSSFWorkbook();
 
-            createFileSheet(workbook, fileBeanMap);
-            createStringSheet(workbook, fileBeanMap, "字符");
+            createFileSheet(workbook, fileBeanMap, "源文件");
+            createStringSheet(workbook, fileBeanMap, "源文件字符");
             createFromSheet(workbook, fileBeanMap);
 
             // 依赖
@@ -45,9 +45,9 @@ public class ExcelUtil {
         }
     }
 
-    private static void createFileSheet(Workbook workbook, Map<String, FileBean> fileBeanMap){
+    private static void createFileSheet(Workbook workbook, Map<String, FileBean> fileBeanMap, String sheetName){
         // 创建工作表
-        Sheet sheet = workbook.createSheet("文件");
+        Sheet sheet = workbook.createSheet(sheetName);
 
         // 创建样式
         CellStyle headerStyle = workbook.createCellStyle();
@@ -135,7 +135,7 @@ public class ExcelUtil {
 
     private static void createFromSheet(Workbook workbook, Map<String, FileBean> fileBeanMap){
         // 创建工作表
-        Sheet sheet = workbook.createSheet("依赖文件");
+        Sheet sheet = workbook.createSheet("源文件依赖");
 
         // 创建样式
         CellStyle headerStyle = workbook.createCellStyle();

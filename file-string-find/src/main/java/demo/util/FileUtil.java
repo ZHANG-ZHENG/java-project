@@ -41,9 +41,6 @@ public class FileUtil {
         List<FindStringBean> findStringList = new ArrayList<>();
         fileBean.setFindStringList(findStringList);
 
-        List<FileBean> fileFromList = new ArrayList<>();
-        fileBean.setFileFromList(fileFromList);
-
         String filePath = fileBean.getFilePath();
         File file = new File(filePath);
         fileBean.setFileName(file.getName());
@@ -111,10 +108,6 @@ public class FileUtil {
      * 遍历文件查找依赖
      */
     public static void fingFrom(FileBean fileBean) {
-        //String filePath = "F:\\workspace\\workspace-security-cloud290\\ui\\src\\views\\soc\\periodicReport-test.vue";
-        List<FindStringBean> findStringList = new ArrayList<>();
-        fileBean.setFindStringList(findStringList);
-
         List<FileBean> fileFromList = new ArrayList<>();
         fileBean.setFileFromList(fileFromList);
 
