@@ -28,6 +28,7 @@ public class FileStringFind {
             fileBeanMap.put(fPath, fileBean);
 
             FileUtil.fingString(fileBean);
+            FileUtil.fingFrom(fileBean);
         }
 
         String savePath = "F:\\output.xlsx";

@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +19,21 @@ public class ExcelUtil {
             Workbook workbook = new XSSFWorkbook();
 
             createFileSheet(workbook, fileBeanMap);
-            createStringSheet(workbook, fileBeanMap);
+            createStringSheet(workbook, fileBeanMap, "字符");
             createFromSheet(workbook, fileBeanMap);
+
+            // 依赖
+//            Map<String, FileBean> fromFileBeanMap = new HashMap<>();
+//            for (Map.Entry<String, FileBean> entry : fileBeanMap.entrySet()) {
+//                // String key = entry.getKey();
+//                FileBean fileBean = entry.getValue();
+//                for (FileBean formFileBean : fileBean.getFileFromList()) {
+//                    if ("内部依赖".equals(formFileBean.getFromType())) {
+//                        fromFileBeanMap.put(formFileBean.getFilePath(), formFileBean);
+//                    }
+//                }
+//            }
+//            createStringSheet(workbook, fromFileBeanMap,"依赖文件字符");
 
             // 写入文件
             FileOutputStream outputStream = new FileOutputStream(filePath);
@@ -72,9 +86,9 @@ public class ExcelUtil {
 
     }
 
-    private static void createStringSheet(Workbook workbook, Map<String, FileBean> fileBeanMap){
+    private static void createStringSheet(Workbook workbook, Map<String, FileBean> fileBeanMap, String sheetName){
         // 创建工作表
-        Sheet sheet = workbook.createSheet("字符");
+        Sheet sheet = workbook.createSheet(sheetName);
 
         // 创建样式
         CellStyle headerStyle = workbook.createCellStyle();
@@ -121,7 +135,7 @@ public class ExcelUtil {
 
     private static void createFromSheet(Workbook workbook, Map<String, FileBean> fileBeanMap){
         // 创建工作表
-        Sheet sheet = workbook.createSheet("依赖");
+        Sheet sheet = workbook.createSheet("依赖文件");
 
         // 创建样式
         CellStyle headerStyle = workbook.createCellStyle();

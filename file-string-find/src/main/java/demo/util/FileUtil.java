@@ -101,6 +101,36 @@ public class FileUtil {
                     findStringList.add(findStringBean);
                 }
 
+            }
+        } catch (IOException e) {
+            System.err.println("读取文件时出错: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 遍历文件查找依赖
+     */
+    public static void fingFrom(FileBean fileBean) {
+        //String filePath = "F:\\workspace\\workspace-security-cloud290\\ui\\src\\views\\soc\\periodicReport-test.vue";
+        List<FindStringBean> findStringList = new ArrayList<>();
+        fileBean.setFindStringList(findStringList);
+
+        List<FileBean> fileFromList = new ArrayList<>();
+        fileBean.setFileFromList(fileFromList);
+
+        String filePath = fileBean.getFilePath();
+        File file = new File(filePath);
+        fileBean.setFileName(file.getName());
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            int lineNumber = 0;
+
+            // 查找包引用
+            Pattern patternFrom = Pattern.compile("from\\s+['\"](.*?)['\"]");
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
 
                 Matcher matcherFrom = patternFrom.matcher(line);
 
@@ -137,22 +167,15 @@ public class FileUtil {
                     if (fromContent.startsWith("@")) {
                         String fromContentAt = fromContent.replace("@", "F:\\workspace\\workspace-security-cloud290\\ui\\src\\");
                         System.out.println(file.getName()+"引用路径: " + fromContentAt);
-                        File fileAt = new File(fromContentAt);
-                        if (fileAt.exists()) {
+                        String filePathCheck = checkFileExistsWithoutExtension(fromContentAt);
+                        if (filePathCheck != null) {
                             fromFileBean.setFromType("内部依赖");
-                            fromFileBean.setFilePath(fileAt.getPath());
-
-                        } else {
-                            fromFileBean.setFromType("内部依赖-文件缺失");
-                            fromFileBean.setFilePath(fileAt.getPath());
+                            fromFileBean.setFilePath(filePathCheck);
+                            fileBean.getFileFromList().add(fromFileBean);
+                            // continue;
                         }
-                        fileBean.getFileFromList().add(fromFileBean);
-                        continue;
                     }
-                    Path absolutePath = resolveRelativePath(fileBean.getFilePath(), fromContent);
-                    System.out.println(file.getName()+"引用路径: " + absolutePath.toAbsolutePath().toString());
 
-                    fileBean.getFileFromList().add(fromFileBean);
                 }
             }
         } catch (IOException e) {
