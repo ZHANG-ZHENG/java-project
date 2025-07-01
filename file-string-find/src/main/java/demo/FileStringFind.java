@@ -30,7 +30,7 @@ public class FileStringFind {
             // String key = entry.getKey();
             FileBean fileBean = entry.getValue();
             for (FileBean formFileBean : fileBean.getFileFromList()) {
-                if ("内部依赖".equals(formFileBean.getFromType())) {
+                if ("内部依赖".equals(formFileBean.getFromType()) && !formFileBean.getFilePath().endsWith(".png")) {
                     String formFilePath = formFileBean.getFilePath();
                     if (fromFileBeanMap.get(formFilePath) == null && fileBeanMap.get(formFilePath) == null) {
                         fromFileBeanMap.put(formFileBean.getFilePath(), formFileBean);
