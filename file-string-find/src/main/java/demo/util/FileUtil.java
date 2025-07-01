@@ -112,12 +112,15 @@ public class FileUtil {
                     fromFileBean.setFromFileLineIndex(lineNumber);
 
                     String nodeModulesPath = "F:\\workspace\\workspace-security-cloud290\\ui\\node_modules\\" +fromContent;
+                    if(nodeModulesPath.contains("cloneDeep")){
+                        System.out.println("cloneDeep");
+                    }
                     //System.out.println("nodeModulesPath: " + nodeModulesPath);
-                    File nodeModulesFile = new File(nodeModulesPath);
-                    if (nodeModulesFile.exists()) {
+                    String checkNodeModulesPath = checkFileExistsWithoutExtension(nodeModulesPath);
+                    if (checkNodeModulesPath != null) {
                         //System.out.println(file.getName()+"引用库文件: " + nodeModulesFile.getPath());
                         fromFileBean.setFromType("公共依赖");
-                        fromFileBean.setFilePath(nodeModulesFile.getPath());
+                        fromFileBean.setFilePath(checkNodeModulesPath);
                         fileBean.getFileFromList().add(fromFileBean);
                         continue;
                     }
@@ -165,6 +168,15 @@ public class FileUtil {
         return resolvedPath.toAbsolutePath();
     }
 
+    public static String checkFileExistsWithoutExtension(String fullPath) {
+        File file = new File(fullPath);
+        if (file.exists()) {
+            return file.getAbsolutePath();
+        }
+        String directory = file.getParent();
+        String fileNameWithoutExtension = file.getName();
+        return checkFileExistsWithoutExtension(directory, fileNameWithoutExtension);
+    }
     public static String checkFileExistsWithoutExtension(String directory, String fileNameWithoutExtension) {
         File dir = new File(directory);
         File[] files = dir.listFiles();
@@ -191,5 +203,7 @@ public class FileUtil {
         System.out.println(file.getAbsoluteFile());
         System.out.println(checkFileExistsWithoutExtension("F:\\workspace\\workspace-security-cloud290\\ui\\src\\api\\soc\\","scene"));
         System.out.println(checkFileExistsWithoutExtension("F:\\workspace\\workspace-security-cloud290\\ui\\src\\api\\soc\\","scene.ts"));
+
+        System.out.println(checkFileExistsWithoutExtension(filePath));
     }
 }
