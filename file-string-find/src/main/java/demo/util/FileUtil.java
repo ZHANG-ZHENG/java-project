@@ -44,9 +44,7 @@ public class FileUtil {
         String filePath = fileBean.getFilePath();
         File file = new File(filePath);
         fileBean.setFileName(file.getName());
-//        if(!file.getName().equals("CustomDashboard.vue")) {
-//            return;
-//        }
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             int lineNumber = 0;
@@ -55,8 +53,7 @@ public class FileUtil {
             Pattern patternHan = Pattern.compile("\\p{Script=Han}+");
             // 查找 t('xxxx.xxxxx'） 或t("xxxx.xxxxx"）
             Pattern patternT = Pattern.compile("t\\(['\"]([^'\"]*\\.[^'\"]*)['\"]\\)");
-            // 查找包引用
-            Pattern patternFrom = Pattern.compile("from\\s+['\"](.*?)['\"]");
+
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
@@ -135,9 +132,6 @@ public class FileUtil {
                     fromFileBean.setFromFileLineIndex(lineNumber);
 
                     String nodeModulesPath = "F:\\workspace\\workspace-security-cloud290\\ui\\node_modules\\" +fromContent;
-                    if(nodeModulesPath.contains("cloneDeep")){
-                        System.out.println("cloneDeep");
-                    }
                     //System.out.println("nodeModulesPath: " + nodeModulesPath);
                     String checkNodeModulesPath = checkFileExistsWithoutExtension(nodeModulesPath);
                     if (checkNodeModulesPath != null) {
@@ -190,6 +184,9 @@ public class FileUtil {
     public static String checkFileExistsWithoutExtension(String fullPath) {
 //        if (fullPath.contains("types")) {
 //            System.out.println(fullPath);
+//        }
+//        if (fullPath.endsWith(".png")) {
+//            return null;
 //        }
         File file = new File(fullPath);
         if (file.isDirectory()){

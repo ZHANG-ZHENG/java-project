@@ -22,7 +22,8 @@ public class ExcelUtil {
             createStringSheet(workbook, fileBeanMap, "源文件字符");
             createFromSheet(workbook, fileBeanMap);
 
-//            createFileSheet(workbook, fromFileBeanMap,"依赖文件");
+            createFileSheet(workbook, fromFileBeanMap,"依赖文件");
+            createStringSheet(workbook, fromFileBeanMap, "依赖文件字符");
 
             // 写入文件
             FileOutputStream outputStream = new FileOutputStream(filePath);

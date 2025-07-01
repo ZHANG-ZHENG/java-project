@@ -41,7 +41,7 @@ public class FileStringFind {
                     String formFilePath = formFileBean.getFilePath();
                     if (fromFileBeanMap.get(formFilePath) == null && fileBeanMap.get(formFilePath) == null) {
                         fromFileBeanMap.put(formFileBean.getFilePath(), formFileBean);
-                        //FileUtil.fingString(formFileBean);
+                        FileUtil.fingString(formFileBean);
                     }
                 }
             }
