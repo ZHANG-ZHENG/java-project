@@ -151,10 +151,13 @@ public class FileUtil {
                     if (fromContent.startsWith(".")) {
                         Path absolutePath = resolveRelativePath(fileBean.getFilePath(), fromContent);
                         System.out.println(file.getName()+"引用路径: " + absolutePath.toAbsolutePath());
-                        fromFileBean.setFromType("内部依赖");
-                        fromFileBean.setFilePath(absolutePath.toString());
-                        fileBean.getFileFromList().add(fromFileBean);
-                        continue;
+                        String absolutePathCheck = checkFileExistsWithoutExtension(absolutePath.toString());
+                        if (absolutePathCheck != null) {
+                            fromFileBean.setFromType("内部依赖");
+                            fromFileBean.setFilePath(absolutePathCheck);
+                            fileBean.getFileFromList().add(fromFileBean);
+                            continue;
+                        }
 
                     }
                     if (fromContent.startsWith("@")) {
@@ -185,7 +188,18 @@ public class FileUtil {
     }
 
     public static String checkFileExistsWithoutExtension(String fullPath) {
+//        if (fullPath.contains("types")) {
+//            System.out.println(fullPath);
+//        }
         File file = new File(fullPath);
+        if (file.isDirectory()){
+            String indexFilePath = fullPath + "\\index.ts";
+            File indexFile = new File(indexFilePath);
+            if (indexFile.exists()) {
+                return indexFile.getAbsolutePath();
+            }
+        }
+
         if (file.exists()) {
             return file.getAbsolutePath();
         }
@@ -203,7 +217,7 @@ public class FileUtil {
                     String filename = file.getName();
                     // 检查文件名是否匹配（不考虑后缀）
                     if (filename.startsWith(fileNameWithoutExtension + ".")
-                            || filename.equals(fileNameWithoutExtension)) {
+                            || filename.equals(fileNameWithoutExtension) || filename.equals("index.ts")) {
                         return file.getAbsolutePath();
                     }
                 }

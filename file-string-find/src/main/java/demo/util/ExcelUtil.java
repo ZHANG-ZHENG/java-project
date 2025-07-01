@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExcelUtil {
-    public static void exportToExcel(String filePath, Map<String, FileBean> fileBeanMap) {
+    public static void exportToExcel(String filePath, Map<String, FileBean> fileBeanMap, Map<String, FileBean> fromFileBeanMap) {
         // 创建工作簿
         try {
             Workbook workbook = new XSSFWorkbook();
@@ -22,18 +22,7 @@ public class ExcelUtil {
             createStringSheet(workbook, fileBeanMap, "源文件字符");
             createFromSheet(workbook, fileBeanMap);
 
-            // 依赖
-//            Map<String, FileBean> fromFileBeanMap = new HashMap<>();
-//            for (Map.Entry<String, FileBean> entry : fileBeanMap.entrySet()) {
-//                // String key = entry.getKey();
-//                FileBean fileBean = entry.getValue();
-//                for (FileBean formFileBean : fileBean.getFileFromList()) {
-//                    if ("内部依赖".equals(formFileBean.getFromType())) {
-//                        fromFileBeanMap.put(formFileBean.getFilePath(), formFileBean);
-//                    }
-//                }
-//            }
-//            createStringSheet(workbook, fromFileBeanMap,"依赖文件字符");
+//            createFileSheet(workbook, fromFileBeanMap,"依赖文件");
 
             // 写入文件
             FileOutputStream outputStream = new FileOutputStream(filePath);
@@ -78,7 +67,11 @@ public class ExcelUtil {
             Cell cell0 = row.createCell(0);
             cell0.setCellValue(fileBean.getFileName());
             Cell cell1 = row.createCell(1);
-            cell1.setCellValue(fileBean.getFileFromList().size());
+            if (fileBean.getFileFromList() != null) {
+                cell1.setCellValue(fileBean.getFileFromList().size());
+            } else {
+                cell1.setCellValue("-");
+            }
             Cell cell2 = row.createCell(2);
             cell2.setCellValue(key);
             rowIndex++;

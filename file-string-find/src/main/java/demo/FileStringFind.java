@@ -31,7 +31,23 @@ public class FileStringFind {
             FileUtil.fingFrom(fileBean);
         }
 
+        // 依赖
+        Map<String, FileBean> fromFileBeanMap = new HashMap<>();
+        for (Map.Entry<String, FileBean> entry : fileBeanMap.entrySet()) {
+            // String key = entry.getKey();
+            FileBean fileBean = entry.getValue();
+            for (FileBean formFileBean : fileBean.getFileFromList()) {
+                if ("内部依赖".equals(formFileBean.getFromType())) {
+                    String formFilePath = formFileBean.getFilePath();
+                    if (fromFileBeanMap.get(formFilePath) == null && fileBeanMap.get(formFilePath) == null) {
+                        fromFileBeanMap.put(formFileBean.getFilePath(), formFileBean);
+                        //FileUtil.fingString(formFileBean);
+                    }
+                }
+            }
+        }
+
         String savePath = "F:\\output.xlsx";
-        ExcelUtil.exportToExcel(savePath, fileBeanMap);
+        ExcelUtil.exportToExcel(savePath, fileBeanMap, fromFileBeanMap);
     }
 }
