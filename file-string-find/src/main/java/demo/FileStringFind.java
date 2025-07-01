@@ -1,6 +1,7 @@
 package demo;
 
 import demo.bean.FileBean;
+import demo.bean.FindStringBean;
 import demo.util.ExcelUtil;
 import demo.util.FileUtil;
 import demo.util.YamlUtil;
@@ -42,7 +43,39 @@ public class FileStringFind {
         // 翻译
         Map<String, Object> zhYamlMap = YamlUtil.getYamlMap("F:\\workspace\\workspace-security-cloud290\\ui\\locales\\zh-CN.yaml");
         Map<String, Object> enYamlMap = YamlUtil.getYamlMap("F:\\workspace\\workspace-security-cloud290\\ui\\locales\\en.yaml");
-        System.out.println("1111111" + YamlUtil.getVal(zhYamlMap, "buttons.hsLoginOut"));
+
+        for (Map.Entry<String, FileBean> entry : fileBeanMap.entrySet()) {
+            String key = entry.getKey();
+            FileBean fileBean = entry.getValue();
+            List<FindStringBean> findStringList = fileBean.getFindStringList();
+
+            for (FindStringBean findStringBean : findStringList) {
+                String findString = findStringBean.getFindString();
+                if (findString.length() > 6 && findString.startsWith("t(") && findString.endsWith(")")) {
+                    String yamlKey = findString.substring(3, findString.length() - 2);
+                    String yamlZhVal = YamlUtil.getVal(zhYamlMap, yamlKey);
+                    String yamlEnVal = YamlUtil.getVal(enYamlMap, yamlKey);
+                    findStringBean.setZhString(yamlZhVal);
+                    findStringBean.setEnString(yamlEnVal);
+                }
+            }
+        }
+        for (Map.Entry<String, FileBean> entry : fromFileBeanMap.entrySet()) {
+            String key = entry.getKey();
+            FileBean fileBean = entry.getValue();
+            List<FindStringBean> findStringList = fileBean.getFindStringList();
+
+            for (FindStringBean findStringBean : findStringList) {
+                String findString = findStringBean.getFindString();
+                if (findString.length() > 6 && findString.startsWith("t(") && findString.endsWith(")")) {
+                    String yamlKey = findString.substring(3, findString.length() - 2);
+                    String yamlZhVal = YamlUtil.getVal(zhYamlMap, yamlKey);
+                    String yamlEnVal = YamlUtil.getVal(enYamlMap, yamlKey);
+                    findStringBean.setZhString(yamlZhVal);
+                    findStringBean.setEnString(yamlEnVal);
+                }
+            }
+        }
 
         String savePath = "F:\\output.xlsx";
         ExcelUtil.exportToExcel(savePath, fileBeanMap, fromFileBeanMap);

@@ -119,7 +119,10 @@ public class ExcelUtil {
                 cell1.setCellValue("第"+findStringBean.getLineIndex()+"行："+findStringBean.getStart()+"-"+findStringBean.getEnd());
                 Cell cell2 = row.createCell(2);
                 cell2.setCellValue(findStringBean.getFindString());
-
+                Cell cell3 = row.createCell(3);
+                cell3.setCellValue(findStringBean.getZhString());
+                Cell cell4 = row.createCell(4);
+                cell4.setCellValue(findStringBean.getEnString());
                 Cell cell5 = row.createCell(5);
                 cell5.setCellValue(findStringBean.getLineString().trim());
                 rowIndex++;

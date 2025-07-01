@@ -12,6 +12,10 @@ public class FindStringBean {
 
     private String findString;
 
+    private String zhString;
+
+    private String enString;
+
     public int getLineIndex() {
         return lineIndex;
     }
@@ -50,5 +54,21 @@ public class FindStringBean {
 
     public void setFindString(String findString) {
         this.findString = findString;
+    }
+
+    public String getZhString() {
+        return zhString;
+    }
+
+    public void setZhString(String zhString) {
+        this.zhString = zhString;
+    }
+
+    public String getEnString() {
+        return enString;
+    }
+
+    public void setEnString(String enString) {
+        this.enString = enString;
     }
 }

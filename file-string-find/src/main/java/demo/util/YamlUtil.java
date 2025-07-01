@@ -26,6 +26,9 @@ public class YamlUtil {
     public static String getVal(Map<String, Object> data, String keysString) {
         String[] keys = keysString.split("\\.");
         Object current = data;
+        if (current == null) {
+            return null;
+        }
         for (String key : keys) {
             if (current instanceof Map) {
                 current = ((Map<?, ?>) current).get(key);
@@ -33,6 +36,9 @@ public class YamlUtil {
                 current = null;
                 break;
             }
+        }
+        if (current == null) {
+            return null;
         }
         return current.toString();
     }
