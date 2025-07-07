@@ -112,6 +112,63 @@ public class FileUtil {
     }
 
     /**
+     * 遍历文件查找字符
+     */
+    public static void fingJavaString(FileBean fileBean) {
+        //String filePath = "F:\\workspace\\workspace-security-cloud290\\ui\\src\\views\\soc\\periodicReport-test.vue";
+        List<FindStringBean> findStringList = new ArrayList<>();
+        fileBean.setFindStringList(findStringList);
+
+        String filePath = fileBean.getFilePath();
+        File file = new File(filePath);
+        fileBean.setFileName(file.getName());
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            int lineNumber = 0;
+
+            // 匹配中文字符的正则表达式
+            Pattern patternHan = Pattern.compile("\\p{Script=Han}+");
+
+            while ((line = br.readLine()) != null) {
+                lineNumber++;
+
+                Matcher matcherHan = patternHan.matcher(line);
+                while (matcherHan.find()) {
+                    int start = matcherHan.start();
+                    int end = matcherHan.end();
+                    String chineseSequence = matcherHan.group();
+                    if(line.contains("<!--") && line.contains("-->")) {
+                        continue;
+                    }
+                    if(line.trim().startsWith("@Schema(") || line.trim().startsWith("* ") || line.trim().startsWith("//")){
+                        continue;
+                    }
+                    if(line.trim().startsWith("@Tag(") || line.trim().startsWith("@Operation(") || line.trim().startsWith("@Parameter(")){
+                        continue;
+                    }
+                    if(line.contains("log.")) {
+                        continue;
+                    }
+//                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
+//                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
+
+                    FindStringBean findStringBean = new FindStringBean();
+                    findStringBean.setStart(start + 1);
+                    findStringBean.setEnd(end);
+                    findStringBean.setLineIndex(lineNumber);
+                    findStringBean.setLineString(line);
+                    findStringBean.setFindString(chineseSequence);
+                    findStringList.add(findStringBean);
+                }
+
+            }
+        } catch (IOException e) {
+            System.err.println("读取文件时出错: " + e.getMessage());
+        }
+    }
+
+    /**
      * 遍历文件查找依赖
      */
     public static void fingFrom(FileBean fileBean) {

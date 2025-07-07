@@ -84,6 +84,12 @@ public class ExcelUtil {
         // 创建工作表
         Sheet sheet = workbook.createSheet(sheetName);
 
+        // 设置字体颜色
+        CellStyle styleFont = workbook.createCellStyle();
+        Font font = workbook.createFont();
+        font.setColor(IndexedColors.RED.getIndex()); // 使用预定义颜色
+        styleFont.setFont(font);
+
         // 创建样式
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
@@ -116,7 +122,7 @@ public class ExcelUtil {
                 Cell cell0 = row.createCell(0);
                 cell0.setCellValue(fileBean.getFileName());
                 Cell cell1 = row.createCell(1);
-                cell1.setCellValue("第"+findStringBean.getLineIndex()+"行："+findStringBean.getStart()+"-"+findStringBean.getEnd());
+                cell1.setCellValue("第"+findStringBean.getLineIndex()+"行"); //"第"+findStringBean.getLineIndex()+"行："+findStringBean.getStart()+"-"+findStringBean.getEnd()
                 Cell cell2 = row.createCell(2);
                 cell2.setCellValue(findStringBean.getFindString());
                 Cell cell3 = row.createCell(3);
@@ -129,6 +135,17 @@ public class ExcelUtil {
                 cell4.setCellValue(findStringBean.getEnString());
                 Cell cell5 = row.createCell(5);
                 cell5.setCellValue(findStringBean.getLineString().trim());
+
+
+                // 判断cell1和上一行是否相等
+                Row rowBefore = sheet.getRow(rowIndex - 1);
+                Row rowNow = sheet.getRow(rowIndex);
+                String beforeVal = rowBefore.getCell(1).getStringCellValue();
+                String val = rowNow.getCell(1).getStringCellValue();
+                if (beforeVal.equals(val)) {
+                    rowNow.getCell(1).setCellStyle(styleFont);
+                }
+
                 rowIndex++;
             }
         }
@@ -164,6 +181,10 @@ public class ExcelUtil {
             // System.out.println("Key: " + key + ", Value: " + value);
 
             List<FileBean> fileFromList = fileBean.getFileFromList();
+
+            if (fileFromList == null) {
+                continue;
+            }
 
             for(FileBean fileFrom : fileFromList) {
                 Row row = sheet.createRow(rowIndex);
