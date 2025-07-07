@@ -4,6 +4,8 @@ import demo.bean.FileBean;
 import demo.bean.FindStringBean;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -149,6 +151,9 @@ public class ExcelUtil {
                 rowIndex++;
             }
         }
+        // 3. 合并第一列内容相同的单元格
+        mergeSameContentCells(sheet, 0); // 0表示第一列
+        // mergeSameContentCells(sheet, 1);
     }
 
     private static void createFromSheet(Workbook workbook, Map<String, FileBean> fileBeanMap){
@@ -203,6 +208,69 @@ public class ExcelUtil {
 //                cell5.setCellValue(findStringBean.getLineString().trim());
                 rowIndex++;
             }
+        }
+    }
+
+
+
+    /**
+     * 合并指定列中内容相同的连续单元格
+     * @param sheet 工作表
+     * @param columnIndex 要处理的列索引(0-based)
+     */
+    public static void mergeSameContentCells(Sheet sheet, int columnIndex) {
+        int firstRow = sheet.getFirstRowNum();
+        int lastRow = sheet.getLastRowNum();
+
+        int mergeStart = -1;
+        String previousValue = null;
+
+        for (int i = firstRow; i <= lastRow; i++) {
+            Row currentRow = sheet.getRow(i);
+            if (currentRow == null) continue;
+
+            Cell currentCell = currentRow.getCell(columnIndex);
+            String currentValue = currentCell == null ? "" : getCellValueAsString(currentCell);
+
+            if (previousValue == null) {
+                // 第一个单元格
+                previousValue = currentValue;
+                mergeStart = i;
+            } else if (currentValue.equals(previousValue)) {
+                // 内容相同，继续检查下一个
+                if (i == lastRow) {
+                    // 最后一行，需要合并
+                    if (mergeStart != i) {
+                        sheet.addMergedRegion(new CellRangeAddress(mergeStart, i, columnIndex, columnIndex));
+                    }
+                }
+            } else {
+                // 内容不同，合并之前的区域
+                if (mergeStart != i - 1) {
+                    sheet.addMergedRegion(new CellRangeAddress(mergeStart, i - 1, columnIndex, columnIndex));
+                }
+                // 开始新的合并区域
+                mergeStart = i;
+                previousValue = currentValue;
+            }
+        }
+    }
+
+    /**
+     * 获取单元格内容为字符串
+     */
+    private static String getCellValueAsString(Cell cell) {
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
         }
     }
 }
