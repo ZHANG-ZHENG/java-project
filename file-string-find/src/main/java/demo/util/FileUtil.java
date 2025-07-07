@@ -141,13 +141,19 @@ public class FileUtil {
                     if(line.contains("<!--") && line.contains("-->")) {
                         continue;
                     }
-                    if(line.trim().startsWith("@Schema(") || line.trim().startsWith("* ") || line.trim().startsWith("//")){
+                    if(line.trim().startsWith("* ") || line.trim().startsWith("//")
+                        || line.trim().contains("// " + chineseSequence) || line.trim().contains("/** " + chineseSequence + " */")){
                         continue;
                     }
-                    if(line.trim().startsWith("@Tag(") || line.trim().startsWith("@Operation(") || line.trim().startsWith("@Parameter(")){
+                    if(line.trim().startsWith("@Tag(") || line.trim().startsWith("@Operation(") || line.trim().startsWith("@Parameter(")
+                        || line.trim().startsWith("@ApiResponse(") || line.trim().startsWith("@Schema(")
+                    ){
                         continue;
                     }
                     if(line.contains("log.")) {
+                        continue;
+                    }
+                    if(file.getName().endsWith(".xml") && line.trim().contains("--" + chineseSequence)){
                         continue;
                     }
 //                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
@@ -162,6 +168,13 @@ public class FileUtil {
                     findStringList.add(findStringBean);
                 }
 
+//                if (line.contains("Codes.") || line.contains("Constants.")) {
+//                    FindStringBean findStringBean = new FindStringBean();
+//                    findStringBean.setLineIndex(lineNumber);
+//                    findStringBean.setLineString(line);
+//                    findStringBean.setFindString(line);
+//                    findStringList.add(findStringBean);
+//                }
             }
         } catch (IOException e) {
             System.err.println("读取文件时出错: " + e.getMessage());
