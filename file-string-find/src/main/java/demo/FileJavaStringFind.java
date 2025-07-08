@@ -12,9 +12,9 @@ import java.util.*;
 public class FileJavaStringFind {
     public static void main(String[] args) {
         FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-rule", "F:\\output-rule.xlsx");
-        FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-devicelogs", "F:\\output-devicelogs.xlsx");
-        FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-device", "F:\\output-device.xlsx");
-        FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-upms", "F:\\output-upms.xlsx");
+        //FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-devicelogs", "F:\\output-devicelogs.xlsx");
+        //FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-device", "F:\\output-device.xlsx");
+       // FileJavaStringFind.export("F:\\workspace\\workspace-security-cloud2802\\security\\security-upms", "F:\\output-upms.xlsx");
     }
 
     public static void export(String folderPath, String savePath) {
@@ -56,6 +56,35 @@ public class FileJavaStringFind {
         Properties enProp = PropertyUtil.getProperty("F:\\workspace\\workspace-security-cloud2802\\security\\security-common\\security-common-core\\src\\main\\resources\\i18n\\messages_en.properties");
 //        System.out.println("zhProp:" + PropertyUtil.getVal(zhProp,"rule.tag.manager.addtag.detail"));
 //        System.out.println("enProp:" + PropertyUtil.getVal(enProp,"rule.tag.manager.addtag.detail"));
+        Map<String, String> zhMap = new HashMap<>();
+        Map<String, String> enMap = new HashMap<>();
+        for (String key : zhProp.stringPropertyNames()) {
+            String value = zhProp.getProperty(key);
+            String mapKey = key.replace(".", "").toLowerCase();
+            zhMap.put(mapKey, value);
+        }
+        for (String key : enProp.stringPropertyNames()) {
+            String value = enProp.getProperty(key);
+            String mapKey = key.replace(".", "").toLowerCase();
+            enMap.put(mapKey, value);
+        }
+        for (Map.Entry<String, FileBean> entry : fileBeanMap.entrySet()) {
+            String key = entry.getKey();
+            FileBean fileBean = entry.getValue();
+            List<FindStringBean> findStringList = fileBean.getFindStringList();
+
+            for (FindStringBean findStringBean : findStringList) {
+                String findString = findStringBean.getFindString();
+                if (findString.length() > 0 && (findString.startsWith("Codes.") || findString.startsWith("Constants."))) {
+                    System.out.println("findString:" + findString);
+                    String findKey = findString.replace("Codes.", "").replace("Constants.", "").replace("_", "").toLowerCase();
+                    String zhVal = zhMap.get(findKey);
+                    String enVal = enMap.get(findKey);;
+                    findStringBean.setZhString(zhVal);
+                    findStringBean.setEnString(enVal);
+                }
+            }
+        }
 
 
         ExcelUtil.exportToExcel(savePath, fileBeanMap, fromFileBeanMap);

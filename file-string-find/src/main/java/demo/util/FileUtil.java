@@ -129,6 +129,8 @@ public class FileUtil {
 
             // 匹配中文字符的正则表达式
             Pattern patternHan = Pattern.compile("\\p{Script=Han}+");
+            // 匹配翻译常量
+            Pattern patternLan = Pattern.compile("(?:Codes|Constants)\\.[A-Z]+(?:_[A-Z]+)+");
 
             while ((line = br.readLine()) != null) {
                 lineNumber++;
@@ -158,7 +160,6 @@ public class FileUtil {
                     }
 //                    System.out.printf(file.getName() + " 第 %d 行: %s%n", lineNumber, line);
 //                    System.out.printf("  位置 %d-%d: \"%s\" (共%d个汉字)%n", start + 1, end, chineseSequence, chineseSequence.length());
-
                     FindStringBean findStringBean = new FindStringBean();
                     findStringBean.setStart(start + 1);
                     findStringBean.setEnd(end);
@@ -168,13 +169,20 @@ public class FileUtil {
                     findStringList.add(findStringBean);
                 }
 
-//                if (line.contains("Codes.") || line.contains("Constants.")) {
-//                    FindStringBean findStringBean = new FindStringBean();
-//                    findStringBean.setLineIndex(lineNumber);
-//                    findStringBean.setLineString(line);
-//                    findStringBean.setFindString(line);
-//                    findStringList.add(findStringBean);
-//                }
+                Matcher matcherLan = patternLan.matcher(line);
+                while (matcherLan.find()) {
+                    int start = matcherLan.start();
+                    int end = matcherLan.end();
+                    String lan = matcherLan.group();
+                    // System.out.printf("matcherLan "+ lan);
+                    FindStringBean findStringBean = new FindStringBean();
+                    findStringBean.setStart(start + 1);
+                    findStringBean.setEnd(end);
+                    findStringBean.setLineIndex(lineNumber);
+                    findStringBean.setLineString(line);
+                    findStringBean.setFindString(lan);
+                    findStringList.add(findStringBean);
+                }
             }
         } catch (IOException e) {
             System.err.println("读取文件时出错: " + e.getMessage());
