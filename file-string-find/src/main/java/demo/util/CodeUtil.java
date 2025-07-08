@@ -1,5 +1,7 @@
 package demo.util;
 
+import demo.config.Config;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -17,10 +19,10 @@ public class CodeUtil {
     /**
      * 遍历文件夹下所有文件
      */
-    public static Map<String, String> getCodeMap(String folderPath) {
+    public static Map<String, String> getCodeMap() {
         Map<String, String> codeMap = new HashMap<>();
 
-        File folder = new File(folderPath);
+        File folder = new File(Config.CODE_FOLDER_PATH);
         // 检查路径是否存在且是目录
         if (folder.exists() && folder.isDirectory()) {
             File[] files = folder.listFiles();
@@ -59,8 +61,5 @@ public class CodeUtil {
     }
 
 
-    public static void main(String[] args) {
-        CodeUtil.getCodeMap("F:\\workspace\\workspace-security-cloud2802\\security\\security-common\\security-common-core\\src\\main\\java\\com\\ruijie\\security\\common\\core\\constant");
 
-    }
 }
