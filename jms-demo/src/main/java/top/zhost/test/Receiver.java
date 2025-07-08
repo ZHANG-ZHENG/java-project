@@ -14,26 +14,26 @@ import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class Receiver implements MessageListener{
-    //Ä¬ÈÏ´úÀíµØÖ· "failover://tcp://localhost:61616"  ·þÎñÆ÷µØÖ·²»Í¬IPÐÞ¸Ä²»Í¬µÄIP
+    //Ä¬ï¿½Ï´ï¿½ï¿½ï¿½ï¿½Ö· "failover://tcp://localhost:61616"  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Í¬IPï¿½Þ¸Ä²ï¿½Í¬ï¿½ï¿½IP
     private static final String BROKER_URL="failover://tcp://sub.zhost.top:61616";
-    //ÏûÏ¢¶ÓÁÐÃû³Æ
+    //ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private static final String SUBJECT="zz-queue";
     public static void main(String[] args) throws JMSException {
-        //³õÊ¼»¯Á¬½Ó¹¤³§
-    	ConnectionFactory connectionFactory=new ActiveMQConnectionFactory("admin","Ruijie@Artemis",BROKER_URL);
-        //½¨Á¢Á¬½Ó
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
+    	ConnectionFactory connectionFactory=new ActiveMQConnectionFactory("admin","zz@Artemis",BROKER_URL);
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Connection conn= connectionFactory.createConnection();
-        //Æô¶¯Á¬½Ó
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         conn.start();
-        //´´½¨Session£¬´Ë·½·¨µÚÒ»¸ö²ÎÊý±íÊ¾»á»°ÊÇ·ñÔÚÊÂÎñÖÐÖ´ÐÐ£¬µÚ¶þ¸ö²ÎÊýÉè¶¨»á»°µÄÓ¦´ðÄ£Ê½
+        //ï¿½ï¿½ï¿½ï¿½Sessionï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½á»°ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð£ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½á»°ï¿½ï¿½Ó¦ï¿½ï¿½Ä£Ê½
         Session session= conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        //´´½¨Ä¿±ê¶ÓÁÐ
+        //ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
         Destination dest=session.createQueue(SUBJECT);
-        //Í¨¹ýsession´´½¨ÏûÏ¢µÄ½ÓÊÕÕß
+        //Í¨ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½
         MessageConsumer consumer= session.createConsumer(dest);
-        //³õÊ¼»¯¼àÌý
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Receiver receiver=new Receiver();
-        //¸ø½ÓÊÕÕßÌí¼Ó¼àÌý¶ÔÏó
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         consumer.setMessageListener(receiver);
     }
 

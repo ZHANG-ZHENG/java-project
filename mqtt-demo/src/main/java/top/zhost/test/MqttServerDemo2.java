@@ -5,27 +5,28 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttServerDemo2 {
     /**
-     * ´úÀí·þÎñÆ÷ipµØÖ·
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ipï¿½ï¿½Ö·
      */
     public static final String MQTT_BROKER_HOST = "tcp://172.18.33.117:1883";
 	//public static final String MQTT_BROKER_HOST = "tcp://172.20.124.14:1883";
     /**
-     * ¶©ÔÄ±êÊ¶
+     * ï¿½ï¿½ï¿½Ä±ï¿½Ê¶
      */
     public static final String MQTT_TOPIC = "vb/task_result";
 
     private static String userName = "admin";
-    private static String password = "ruijie123";
+    private static String password = "zz123";
+    private static String password = "zz123";
 
     /**
-     * ¿Í»§¶ËÎ¨Ò»±êÊ¶
+     * ï¿½Í»ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶
      */
     public static final String MQTT_CLIENT_ID = "zz_server_test_mqtt";
     private static MqttTopic topic;
     private static MqttClient client;
 
     public static void main(String... args) {
-        // ÍÆËÍÏûÏ¢
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
         MqttMessage message = new MqttMessage();
         try {
             client = new MqttClient(MQTT_BROKER_HOST, MQTT_CLIENT_ID, new MemoryPersistence());
@@ -47,7 +48,7 @@ public class MqttServerDemo2 {
             while (true) {
                 MqttDeliveryToken token = topic.publish(message);
                 token.waitForCompletion();
-                System.out.println("serverÒÑ¾­·¢ËÍ ");
+                System.out.println("serverï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ");
                 Thread.sleep(10000);
             }
 

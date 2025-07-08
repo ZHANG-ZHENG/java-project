@@ -18,10 +18,10 @@ public class SubscribeSampleSsl3 {
     static MqttClientCallback mqttClientCallback = new MqttClientCallback();
     static MqttAsyncClient mqttClient = null;
 
-	static String username = "admin";  //×¢ÒâÕâÀï ÌîÄã×Ô¼ºµÄmqttÕËºÅÃÜÂë
-    static String password = "ruijie123"; //×¢ÒâÕâÀï ÌîÄã×Ô¼ºµÄmqttÕËºÅÃÜÂë
-    //String broker = "tcp://xxx.xx.xxx.xxx:1883"; //×¢ÒâÕâÀïÒªÌî×Ô¼ºmqtt·þÎñÆ÷ËùÔÚµØÖ·
-    static String broker = "ssl://192.168.51.225:1884"; //×¢ÒâÕâÀïÒªÌî×Ô¼ºmqtt·þÎñÆ÷ËùÔÚµØÖ·
+	static String username = "admin";  //×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½mqttï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½
+    static String password = "zz123"; //×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½mqttï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½
+    //String broker = "tcp://xxx.xx.xxx.xxx:1883"; //×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ô¼ï¿½mqttï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ö·
+    static String broker = "ssl://192.168.51.225:1884"; //×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ô¼ï¿½mqttï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ö·
     
     public static void main(String[] args) throws InterruptedException {
         start();
@@ -37,11 +37,11 @@ public class SubscribeSampleSsl3 {
             mqttClient = new MqttAsyncClient(broker, clientId, new MemoryPersistence());
             mqttClient.setCallback(mqttClientCallback);
 
-            //¶©ÔÄ Á¬½Ómqtt·þÎñÆ÷
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½mqttï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             subscribeConnect();
 
-            //·¢²¼ Á¬½Ómqtt·þÎñÆ÷
-            //... ÂÔ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½mqttï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //... ï¿½ï¿½
 
         } catch (MqttException me) {
             System.out.println("reason " + me.getReasonCode());
@@ -54,7 +54,7 @@ public class SubscribeSampleSsl3 {
     }
 
     public static void subscribeConnect() {
-        System.out.println("¶©ÔÄÁ¬½Ó");
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         if (mqttClient != null) {
             try {
                 MqttConnectOptions connOpts = new MqttConnectOptions();
@@ -62,11 +62,11 @@ public class SubscribeSampleSsl3 {
                 connOpts.setCleanSession(true);
                 connOpts.setMaxInflight(100000);
 				
-				//Èç¹ûÄäÃûµÇÂ¼Á¬½Ó£¬Õâ2ÐÐ×¢ÊÍµô
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½2ï¿½ï¿½×¢ï¿½Íµï¿½
                 connOpts.setUserName(username);
                 connOpts.setPassword(password.toCharArray());
 
-                //ssl Á¬½Ó , ÕâÀïµÄ TrustManager ÊÇ×Ô¼ºÊµÏÖµÄ£¬Ã»ÓÐÈ¥Ð£Ñé·þÎñ¶ËµÄÖ¤Êé
+                //ssl ï¿½ï¿½ï¿½ï¿½ , ï¿½ï¿½ï¿½ï¿½ï¿½ TrustManager ï¿½ï¿½ï¿½Ô¼ï¿½Êµï¿½ÖµÄ£ï¿½Ã»ï¿½ï¿½È¥Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö¤ï¿½ï¿½
                 TrustManager[] trustAllCerts = new TrustManager[1];
                 TrustManager tm = new MyTM();
                 trustAllCerts[0] = tm;
@@ -81,9 +81,9 @@ public class SubscribeSampleSsl3 {
                 mqttClient.connect(connOpts, null, new IMqttActionListener() {
                     public void onSuccess(IMqttToken asyncActionToken) {
                         try {
-                        	//¶©ÔÄ topic Îªtest µÄÏûÏ¢,ÏûÏ¢ÖÊÁ¿1
+                        	//ï¿½ï¿½ï¿½ï¿½ topic Îªtest ï¿½ï¿½ï¿½ï¿½Ï¢,ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½1
                             mqttClient.subscribe("test", 1);
-                            System.out.println("³É¹¦¶©ÔÄtopicÎªtestµÄÏûÏ¢"); 
+                            System.out.println("ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½topicÎªtestï¿½ï¿½ï¿½ï¿½Ï¢"); 
                         } catch (MqttException me) {
                             System.out.println("reason " + me.getReasonCode());
                             System.out.println("msg " + me.getMessage());
@@ -95,7 +95,7 @@ public class SubscribeSampleSsl3 {
                     }
 
                     public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                        System.out.println("mqtt Ã»ÓÐÁ¬½ÓÉÏ:" + exception.getMessage());
+                        System.out.println("mqtt Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:" + exception.getMessage());
                         exception.printStackTrace();
                     }
                 });
@@ -114,7 +114,7 @@ public class SubscribeSampleSsl3 {
         }
     }
 
-	//MyTM ÊÇ×Ô¼ºÊµÏÖµÄÈÏÖ¤¹ÜÀíÀà£¬ÀïÃæ²¢ÓÐÐ£Ñé·þÎñ¶ËµÄÖ¤Êé¾Í·µ»Øtrue,ÓÀ¾Ã³É¹¦£¡
+	//MyTM ï¿½ï¿½ï¿½Ô¼ï¿½Êµï¿½Öµï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½æ²¢ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö¤ï¿½ï¿½Í·ï¿½ï¿½ï¿½true,ï¿½ï¿½ï¿½Ã³É¹ï¿½ï¿½ï¿½
     static class MyTM implements TrustManager, X509TrustManager {
         public X509Certificate[] getAcceptedIssuers() {
             return null;
@@ -143,19 +143,19 @@ public class SubscribeSampleSsl3 {
 
         public void connectionLost(Throwable arg0)
         {
-            System.out.println("mqtt Ê§È¥ÁËÁ¬½Ó");
+            System.out.println("mqtt Ê§È¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
 
         public void deliveryComplete(IMqttDeliveryToken arg0)
         {
-            System.out.println("mqtt ·¢ËÍÍê³É£¡");
+            System.out.println("mqtt ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½");
         }
 
         public void messageArrived(String topic, MqttMessage message)
                 throws Exception
         {
             String content = new String(message.getPayload(), "utf-8");
-            System.out.println("ÊÕµ½mqttÏûÏ¢,topic: "+topic+" ,content: "+content);
+            System.out.println("ï¿½Õµï¿½mqttï¿½ï¿½Ï¢,topic: "+topic+" ,content: "+content);
         }
     }
 }

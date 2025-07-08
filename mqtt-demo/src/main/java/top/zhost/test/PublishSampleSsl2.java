@@ -13,7 +13,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import top.zhost.test.SubscribeSampleSsl.MyTM;
 
 /**
- *·¢²¼¶Ë
+ *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 public class PublishSampleSsl2 {
     public static void main(String[] args) {
@@ -23,24 +23,24 @@ public class PublishSampleSsl2 {
         int qos = 1;
         String broker = "ssl://sub.zhost.top:1884";
         String userName = "admin";
-        String password = "ruijie123";
+        String password = "zz123";
         String clientId = "pubClient";
-        // ÄÚ´æ´æ´¢
+        // ï¿½Ú´ï¿½æ´¢
         MemoryPersistence persistence = new MemoryPersistence();
 
         try {
-            // ´´½¨¿Í»§¶Ë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½
             MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-            // ´´½¨Á´½Ó²ÎÊý
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
             MqttConnectOptions connOpts = new MqttConnectOptions();
-            // ÔÚÖØÐÂÆô¶¯ºÍÖØÐÂÁ¬½ÓÊ±¼Ç×¡×´Ì¬
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½×¡×´Ì¬
             connOpts.setCleanSession(false);
-            // ÉèÖÃÁ¬½ÓµÄÓÃ»§Ãû
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½Ã»ï¿½ï¿½ï¿½
             connOpts.setUserName(userName);
             connOpts.setPassword(password.toCharArray());
             
             try {
-                //ssl Á¬½Ó , ÕâÀïµÄ TrustManager ÊÇ×Ô¼ºÊµÏÖµÄ£¬Ã»ÓÐÈ¥Ð£Ñé·þÎñ¶ËµÄÖ¤Êé
+                //ssl ï¿½ï¿½ï¿½ï¿½ , ï¿½ï¿½ï¿½ï¿½ï¿½ TrustManager ï¿½ï¿½ï¿½Ô¼ï¿½Êµï¿½ÖµÄ£ï¿½Ã»ï¿½ï¿½È¥Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ö¤ï¿½ï¿½
                 TrustManager[] trustAllCerts = new TrustManager[1];
                 TrustManager trustManager = new MyTM();
                 trustAllCerts[0] = trustManager;
@@ -54,17 +54,17 @@ public class PublishSampleSsl2 {
 			}
 
             
-            // ½¨Á¢Á¬½Ó
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             sampleClient.connect(connOpts);
-            // ´´½¨ÏûÏ¢
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             MqttMessage message = new MqttMessage(content.getBytes());
-            // ÉèÖÃÏûÏ¢µÄ·þÎñÖÊÁ¿
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             message.setQos(qos);
-            // ·¢²¼ÏûÏ¢
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             sampleClient.publish(topic, message);
-            // ¶Ï¿ªÁ¬½Ó
+            // ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½
             sampleClient.disconnect();
-            // ¹Ø±Õ¿Í»§¶Ë
+            // ï¿½Ø±Õ¿Í»ï¿½ï¿½ï¿½
             sampleClient.close();
         } catch (MqttException me) {
             System.out.println("reason " + me.getReasonCode());

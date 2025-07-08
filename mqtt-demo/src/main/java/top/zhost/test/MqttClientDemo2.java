@@ -5,17 +5,17 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttClientDemo2 {
     /**
-     * ´úÀí·şÎñÆ÷ipµØÖ·
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ipï¿½ï¿½Ö·
      */
     public static final String MQTT_BROKER_HOST = "tcp://172.18.33.117:1883";
 
     /**
-     * ¿Í»§¶ËÎ¨Ò»±êÊ¶
+     * ï¿½Í»ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶
      */
     public static final String MQTT_CLIENT_ID = "zz_test";
 
     /**
-     * ¶©ÔÄ±êÊ¶
+     * ï¿½ï¿½ï¿½Ä±ï¿½Ê¶
      */
 //    public static final String MQTT_TOPIC = "xiasuhuei321";
 
@@ -24,9 +24,9 @@ public class MqttClientDemo2 {
      */
     public static final String USERNAME = "admin";
     /**
-     * ÃÜÂë
+     * ï¿½ï¿½ï¿½ï¿½
      */
-    public static final String PASSWORD = "ruijie123";
+    public static final String PASSWORD = "zz123";
     public static final String TOPIC_FILTER = "vb/task/1";
 
     private volatile static MqttClient mqttClient;
@@ -34,27 +34,27 @@ public class MqttClientDemo2 {
 
     public static void main(String... args) {
         try {
-            // hostÎªÖ÷»úÃû£¬clientid¼´Á¬½ÓMQTTµÄ¿Í»§¶ËID£¬Ò»°ãÒÔ¿Í»§¶ËÎ¨Ò»±êÊ¶·û±íÊ¾£¬
-            // MemoryPersistenceÉèÖÃclientidµÄ±£´æĞÎÊ½£¬Ä¬ÈÏÎªÒÔÄÚ´æ±£´æ
+            // hostÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½clientidï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MQTTï¿½Ä¿Í»ï¿½ï¿½ï¿½IDï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ô¿Í»ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
+            // MemoryPersistenceï¿½ï¿½ï¿½ï¿½clientidï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Ä¬ï¿½ï¿½Îªï¿½ï¿½ï¿½Ú´æ±£ï¿½ï¿½
             mqttClient = new MqttClient(MQTT_BROKER_HOST, MQTT_CLIENT_ID, new MemoryPersistence());
-            // ÅäÖÃ²ÎÊıĞÅÏ¢
+            // ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             options = new MqttConnectOptions();
-            // ÉèÖÃÊÇ·ñÇå¿Õsession,ÕâÀïÈç¹ûÉèÖÃÎªfalse±íÊ¾·şÎñÆ÷»á±£Áô¿Í»§¶ËµÄÁ¬½Ó¼ÇÂ¼£¬
-            // ÕâÀïÉèÖÃÎªtrue±íÊ¾Ã¿´ÎÁ¬½Óµ½·şÎñÆ÷¶¼ÒÔĞÂµÄÉí·İÁ¬½Ó
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½session,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªfalseï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á±£ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ó¼ï¿½Â¼ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªtrueï¿½ï¿½Ê¾Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             options.setCleanSession(true);
-            // ÉèÖÃÓÃ»§Ãû
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½
             options.setUserName(USERNAME);
-            // ÉèÖÃÃÜÂë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             options.setPassword(PASSWORD.toCharArray());
-            // ÉèÖÃ³¬Ê±Ê±¼ä µ¥Î»ÎªÃë
+            // ï¿½ï¿½ï¿½Ã³ï¿½Ê±Ê±ï¿½ï¿½ ï¿½ï¿½Î»Îªï¿½ï¿½
             options.setConnectionTimeout(10);
-            // ÉèÖÃ»á»°ĞÄÌøÊ±¼ä µ¥Î»ÎªÃë ·şÎñÆ÷»áÃ¿¸ô1.5*20ÃëµÄÊ±¼äÏò¿Í»§¶Ë·¢ËÍ¸öÏûÏ¢ÅĞ¶Ï¿Í»§¶ËÊÇ·ñÔÚÏß£¬µ«Õâ¸ö·½·¨²¢Ã»ÓĞÖØÁ¬µÄ»úÖÆ
+            // ï¿½ï¿½ï¿½Ã»á»°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½ï¿½Î»Îªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½1.5*20ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½Í¸ï¿½ï¿½ï¿½Ï¢ï¿½Ğ¶Ï¿Í»ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
             options.setKeepAliveInterval(20);
-            // Á¬½Ó
+            // ï¿½ï¿½ï¿½ï¿½
             mqttClient.connect(options);
-            // ¶©ÔÄ
+            // ï¿½ï¿½ï¿½ï¿½
             mqttClient.subscribe(TOPIC_FILTER);
-            // ÉèÖÃ»Øµ÷
+            // ï¿½ï¿½ï¿½Ã»Øµï¿½
             mqttClient.setCallback(new MqttCallback() {
               
                 public void connectionLost(Throwable throwable) {

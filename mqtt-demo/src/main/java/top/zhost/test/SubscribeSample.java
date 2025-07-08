@@ -4,7 +4,7 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 /**
- *¶©ÔÄ¶Ë
+ *ï¿½ï¿½ï¿½Ä¶ï¿½
  */
 public class SubscribeSample {
 
@@ -14,22 +14,22 @@ public class SubscribeSample {
         int qos = 1;
         String clientid = "subClient";
         String userName = "admin";
-        String passWord = "ruijie123";
+        String passWord = "zz123";
         try {
-            // hostÎªÖ÷»úÃû£¬testÎªclientid¼´Á¬½ÓMQTTµÄ¿Í»§¶ËID£¬Ò»°ãÒÔ¿Í»§¶ËÎ¨Ò»±êÊ¶·û±íÊ¾£¬MemoryPersistenceÉèÖÃclientidµÄ±£´æĞÎÊ½£¬Ä¬ÈÏÎªÒÔÄÚ´æ±£´æ
+            // hostÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½testÎªclientidï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MQTTï¿½Ä¿Í»ï¿½ï¿½ï¿½IDï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ô¿Í»ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½MemoryPersistenceï¿½ï¿½ï¿½ï¿½clientidï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Ä¬ï¿½ï¿½Îªï¿½ï¿½ï¿½Ú´æ±£ï¿½ï¿½
             MqttClient client = new MqttClient(HOST, clientid, new MemoryPersistence());
-            // MQTTµÄÁ¬½ÓÉèÖÃ
+            // MQTTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             MqttConnectOptions options = new MqttConnectOptions();
-            // ÉèÖÃÊÇ·ñÇå¿Õsession,ÕâÀïÈç¹ûÉèÖÃÎªfalse±íÊ¾·şÎñÆ÷»á±£Áô¿Í»§¶ËµÄÁ¬½Ó¼ÇÂ¼£¬ÕâÀïÉèÖÃÎªtrue±íÊ¾Ã¿´ÎÁ¬½Óµ½·şÎñÆ÷¶¼ÒÔĞÂµÄÉí·İÁ¬½Ó
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½session,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªfalseï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á±£ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ó¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªtrueï¿½ï¿½Ê¾Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             options.setCleanSession(true);
-            // ÉèÖÃÁ¬½ÓµÄÓÃ»§Ãû ÉèÖÃÁ¬½ÓµÄÃÜÂë
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½
             options.setUserName(userName);
             options.setPassword(passWord.toCharArray());
-            // ÉèÖÃ³¬Ê±Ê±¼ä µ¥Î»ÎªÃë
+            // ï¿½ï¿½ï¿½Ã³ï¿½Ê±Ê±ï¿½ï¿½ ï¿½ï¿½Î»Îªï¿½ï¿½
             options.setConnectionTimeout(10);
-            // ÉèÖÃ»á»°ĞÄÌøÊ±¼ä µ¥Î»ÎªÃë ·şÎñÆ÷»áÃ¿¸ô1.5*20ÃëµÄÊ±¼äÏò¿Í»§¶Ë·¢ËÍ¸öÏûÏ¢ÅĞ¶Ï¿Í»§¶ËÊÇ·ñÔÚÏß£¬µ«Õâ¸ö·½·¨²¢Ã»ÓĞÖØÁ¬µÄ»úÖÆ
+            // ï¿½ï¿½ï¿½Ã»á»°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½ï¿½Î»Îªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½1.5*20ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½Í¸ï¿½ï¿½ï¿½Ï¢ï¿½Ğ¶Ï¿Í»ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
             options.setKeepAliveInterval(20);
-            // ÉèÖÃ»Øµ÷º¯Êı
+            // ï¿½ï¿½ï¿½Ã»Øµï¿½ï¿½ï¿½ï¿½ï¿½
             client.setCallback(new MqttCallback() {
 
                 public void connectionLost(Throwable cause) {
@@ -49,7 +49,7 @@ public class SubscribeSample {
 
             });
             client.connect(options);
-            //¶©ÔÄÏûÏ¢
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             client.subscribe(TOPIC, qos);
         } catch (Exception e) {
             e.printStackTrace();

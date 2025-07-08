@@ -10,38 +10,38 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 /**
- * @Description »ùÓÚ·¢²¼/¶©ÔÄÄ£Ê½´«ÊäÀàÐÍµÄÉú²úÕß²âÊÔ
+ * @Description ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß²ï¿½ï¿½ï¿½
  */
 public class TopicReceiver {
 
     private static final String ACTIVEMQ_URL = "tcp://sub.zhost.top:61616";
 
     public static void main(String[] args) throws JMSException, InterruptedException {
-        // ´´½¨Á¬½Ó¹¤³§
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("admin","Ruijie@Artemis",ACTIVEMQ_URL);
-        // ´´½¨Á¬½Ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("admin","zz@Artemis",ACTIVEMQ_URL);
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Connection connection = activeMQConnectionFactory.createConnection();
-        // ´ò¿ªÁ¬½Ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         connection.start();
-        // ´´½¨»á»°
+        // ï¿½ï¿½ï¿½ï¿½ï¿½á»°
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        // ´´½¨¶ÓÁÐÄ¿±ê,²¢±êÊ¶¶ÓÁÐÃû³Æ£¬Ïû·ÑÕß¸ù¾Ý¶ÓÁÐÃû³Æ½ÓÊÕÊý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Destination destination = session.createTopic("topicTest");
-        // ´´½¨Ò»¸öÉú²úÕß
+        // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         MessageProducer producer = session.createProducer(destination);
-        // Ïò¶ÓÁÐÍÆËÍ10¸öÎÄ±¾ÏûÏ¢Êý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
         int i = 0;
         while(true){
         	i++;
-            // ´´½¨ÎÄ±¾ÏûÏ¢
-            TextMessage message = session.createTextMessage("µÚ" + i + "¸öÎÄ±¾ÏûÏ¢");
-            //·¢ËÍÏûÏ¢
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ï¢
+            TextMessage message = session.createTextMessage("ï¿½ï¿½" + i + "ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½Ï¢");
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             producer.send(message);
-            //ÔÚ±¾µØ´òÓ¡ÏûÏ¢
-            System.out.println("ÒÑ·¢ËÍµÄÏûÏ¢£º" + message.getText());
+            //ï¿½Ú±ï¿½ï¿½Ø´ï¿½Ó¡ï¿½ï¿½Ï¢
+            System.out.println("ï¿½Ñ·ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½" + message.getText());
             Thread.sleep(2000);
         }
-        //¹Ø±ÕÁ¬½Ó
+        //ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½
        // connection.close();
     }
 

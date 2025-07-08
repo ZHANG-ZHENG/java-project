@@ -12,7 +12,7 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 /**
- * @Description »ùÓÚ·¢²¼/¶©ÔÄÄ£Ê½´«ÊäÀàÐÍµÄÏû·ÑÕß²âÊÔ
+ * @Description ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß²ï¿½ï¿½ï¿½
  * https://www.cnblogs.com/xiguadadage/p/11217604.html
  */
 public class TopicSender {
@@ -20,24 +20,24 @@ public class TopicSender {
     private static final String ACTIVEMQ_URL =  "tcp://sub.zhost.top:61616";
 
     public static void main(String[] args) throws JMSException {
-        // ´´½¨Á¬½Ó¹¤³§
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("admin","Ruijie@Artemis",ACTIVEMQ_URL);
-        // ´´½¨Á¬½Ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory("admin","zz@Artemis",ACTIVEMQ_URL);
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Connection connection = activeMQConnectionFactory.createConnection();
-        // ´ò¿ªÁ¬½Ó
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         connection.start();
-        // ´´½¨»á»°
+        // ï¿½ï¿½ï¿½ï¿½ï¿½á»°
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        // ´´½¨¶ÓÁÐÄ¿±ê,²¢±êÊ¶¶ÓÁÐÃû³Æ£¬Ïû·ÑÕß¸ù¾Ý¶ÓÁÐÃû³Æ½ÓÊÕÊý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Destination destination = session.createTopic("topicTest");
-        // ´´½¨Ïû·ÑÕß
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         MessageConsumer consumer = session.createConsumer(destination);
-        // ´´½¨Ïû·ÑµÄ¼àÌý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÑµÄ¼ï¿½ï¿½ï¿½
         consumer.setMessageListener(new MessageListener() {
             public void onMessage(Message message) {
                 TextMessage textMessage = (TextMessage) message;
                 try {
-                    System.out.println("Ïû·ÑµÄÏûÏ¢£º" + textMessage.getText());
+                    System.out.println("ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½" + textMessage.getText());
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

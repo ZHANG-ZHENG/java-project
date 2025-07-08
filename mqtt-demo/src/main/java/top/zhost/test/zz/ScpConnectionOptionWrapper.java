@@ -13,33 +13,33 @@ import javax.net.ssl.X509TrustManager;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 /**
- * ¹¤¾ßÀà£º¸ºÔð·â×°¿Í»§¶ËµÄ³õÊ¼»¯²ÎÊýÉèÖÃ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½à£ºï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½Í»ï¿½ï¿½ËµÄ³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 public class ScpConnectionOptionWrapper {
 	/**
-	 * ÕËºÅ accessKey
+	 * ï¿½Ëºï¿½ accessKey
 	 */
 	private String accessKey;
 	/**
-	 * ÕËºÅ secretKey
+	 * ï¿½Ëºï¿½ secretKey
 	 */
 	private String secretKey;
 	/**
-	 * ÓÉÒµÎñÏµÍ³×Ô¼º¶¨Òå£¬ÐèÒª±£Ö¤Ã¿¸ö tcp Á¬½Ó¶¼²»Ò»Ñù£¬±£Ö¤È«¾ÖÎ¨Ò»£¬Èç¹û²»Í¬µÄ¿Í»§¶Ë¶ÔÏó£¨tcp Á¬½Ó£©Ê¹ÓÃÁËÏàÍ¬µÄ clientId
-	 * »áµ¼ÖÂÁ¬½ÓÒì³£¶Ï¿ª¡£clientId ×Ü³¤¶È²»µÃ³¬¹ý64¸ö×Ö·û¡£
+	 * ï¿½ï¿½Òµï¿½ï¿½ÏµÍ³ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½å£¬ï¿½ï¿½Òªï¿½ï¿½Ö¤Ã¿ï¿½ï¿½ tcp ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤È«ï¿½ï¿½Î¨Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½Ä¿Í»ï¿½ï¿½Ë¶ï¿½ï¿½ï¿½tcp ï¿½ï¿½ï¿½Ó£ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ clientId
+	 * ï¿½áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½Ï¿ï¿½ï¿½ï¿½clientId ï¿½Ü³ï¿½ï¿½È²ï¿½ï¿½Ã³ï¿½ï¿½ï¿½64ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 	 */
 	private String clientId;
 	/**
-	 * ÄÚ²¿Á¬½Ó²ÎÊý
+	 * ï¿½Ú²ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
 	 */
 	private MqttConnectOptions mqttConnectOptions;
 
 	/**
-	 * Signature ¼øÈ¨Ä£Ê½ÏÂ¹¹Ôì·½·¨
+	 * Signature ï¿½ï¿½È¨Ä£Ê½ï¿½Â¹ï¿½ï¿½ì·½ï¿½ï¿½
 	 *
-	 * @param clientId  MQ4IOT clientId£¬¿Í»§¶ËSN
-	 * @param accessKey ÕËºÅ accessKey
-	 * @param secretKey ÕËºÅ secretKey
+	 * @param clientId  MQ4IOT clientIdï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½SN
+	 * @param accessKey ï¿½Ëºï¿½ accessKey
+	 * @param secretKey ï¿½Ëºï¿½ secretKey
 	 * @throws Exception
 	 */
 	public ScpConnectionOptionWrapper(String clientId, String accessKey, String secretKey, boolean ssl) throws Exception {
@@ -53,21 +53,21 @@ public class ScpConnectionOptionWrapper {
 //		System.out.println(clientId);
 //		System.out.println(password);
 		mqttConnectOptions.setUserName("admin");
-		mqttConnectOptions.setPassword("ruijie123".toCharArray());
+		mqttConnectOptions.setPassword("zz123".toCharArray());
 		mqttConnectOptions.setCleanSession(true);
 		mqttConnectOptions.setKeepAliveInterval(90);
 		mqttConnectOptions.setAutomaticReconnect(true);
 		mqttConnectOptions.setMqttVersion(MQTT_VERSION_3_1_1);
 		mqttConnectOptions.setConnectionTimeout(5000);
-		//Ê¹ÓÃsslÁ¬½Ó¶Ë¿ÚÊ¹ÓÃ1884¡£µ¥ÏòÈÏÖ¤
+		//Ê¹ï¿½ï¿½sslï¿½ï¿½ï¿½Ó¶Ë¿ï¿½Ê¹ï¿½ï¿½1884ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤
 		if (ssl) {
 			SSLContext sc = SSLContext.getInstance("TLSv1.2");
-			// ÕýÊ½»·¾³
+			// ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½
 //          sc.init(null, null, null);
 //			SSLSocketFactory factory = sc.getSocketFactory();
 //			mqttConnectOptions.setSocketFactory(factory);
-			// ÕýÊ½»·¾³ END
-			// ²âÊÔ»·¾³
+			// ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ END
+			// ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 			sc.init(null, new TrustManager[] { new X509TrustManager() {
 				@Override
 				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
@@ -88,7 +88,7 @@ public class ScpConnectionOptionWrapper {
 			SSLSocketFactory factory = sc.getSocketFactory();
 			mqttConnectOptions.setSocketFactory(factory);
 			mqttConnectOptions.setHttpsHostnameVerificationEnabled(false);
-			// ²âÊÔ»·¾³ END
+			// ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½ END
 		}
 	}
 

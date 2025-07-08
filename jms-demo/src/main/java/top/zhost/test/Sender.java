@@ -13,33 +13,33 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 
 public class Sender {
-    //Ä¬ÈÏ´úÀíµØÖ· "failover://tcp://localhost:61616"  ·þÎñÆ÷µØÖ·²»Í¬IPÐÞ¸Ä²»Í¬µÄIP
+    //Ä¬ï¿½Ï´ï¿½ï¿½ï¿½ï¿½Ö· "failover://tcp://localhost:61616"  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½Í¬IPï¿½Þ¸Ä²ï¿½Í¬ï¿½ï¿½IP
     //private static final String BROKER_URL=ActiveMQConnection.DEFAULT_BROKER_URL;
 	private static final String BROKER_URL="failover://tcp://sub.zhost.top:61616";
-    //ÏûÏ¢¶ÓÁÐÃû³Æ
+    //ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private static final String SUBJECT="zz-queue";
     private static int i=1;
     public static void main(String[] args) throws JMSException, InterruptedException {
-        //³õÊ¼»¯Á¬½Ó¹¤³§
-        ConnectionFactory connectionFactory=new ActiveMQConnectionFactory("admin","Ruijie@Artemis",BROKER_URL);
-        //½¨Á¢Á¬½Ó
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½
+        ConnectionFactory connectionFactory=new ActiveMQConnectionFactory("admin","zz@Artemis",BROKER_URL);
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         Connection conn=  connectionFactory.createConnection();
         conn.setClientID("zz_jms_"+System.currentTimeMillis());
-        //Æô¶¯Á¬½Ó
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         conn.start();
-        //´´½¨Session£¬´Ë·½·¨µÚÒ»¸ö²ÎÊý±íÊ¾»á»°ÊÇ·ñÔÚÊÂÎñÖÐÖ´ÐÐ£¬µÚ¶þ¸ö²ÎÊýÉè¶¨»á»°µÄÓ¦´ðÄ£Ê½
+        //ï¿½ï¿½ï¿½ï¿½Sessionï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½á»°ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð£ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½á»°ï¿½ï¿½Ó¦ï¿½ï¿½Ä£Ê½
         Session session= conn.createSession(false,Session.AUTO_ACKNOWLEDGE);
-        //´´½¨Ä¿±ê¶ÓÁÐ
+        //ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
         Destination dest = session.createQueue(SUBJECT);
-        //Í¨¹ýsession´´½¨ÏûÏ¢µÄ·¢ËÍÕß
+        //Í¨ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½
         MessageProducer producer=session.createProducer(dest);
         while(true){
-            //¶¨ÒåÒª·¢ËÍµÄÏûÏ¢
-            TextMessage message= session.createTextMessage("======ActiveMQ·¢ËÍÏûÏ¢===="+i+"===");
-            //·¢ËÍÏûÏ¢
+            //ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢
+            TextMessage message= session.createTextMessage("======ActiveMQï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢===="+i+"===");
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
             producer.send(message);
             System.out.println("message:"+message);
-            //ÐÝÃß2Ãë
+            //ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½
             Thread.sleep(2000);
             i++;
         }
