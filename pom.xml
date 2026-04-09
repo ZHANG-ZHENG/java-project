@@ -28,7 +28,7 @@
 <!--      <module>quartz</module>-->
 <!--      <module>jpcap-demo</module>-->
 <!--      <module>pdf-demo</module>-->
-        <module>caffeine-demo</module>
+<!--      <module>caffeine-demo</module>-->
         <module>file-string-find</module>
     </modules>
         </project>
