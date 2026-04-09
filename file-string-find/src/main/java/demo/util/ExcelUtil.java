@@ -2,13 +2,13 @@ package demo.util;
 
 import demo.bean.FileBean;
 import demo.bean.FindStringBean;
+import demo.bean.LangBean;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +100,7 @@ public class ExcelUtil {
         headerFont.setBold(true);
         headerStyle.setFont(headerFont);
 
-        String[] header = new String[]{"文件", "位置", "字符", "zh", "en", "行信息"};
+        String[] header = new String[]{"文件", "字符", "zh", "en", "位置", "行信息"};
         Row headerRow = sheet.createRow(0);
         for (int j = 0; j < header.length; j++) {
             Cell cell = headerRow.createCell(j);
@@ -123,18 +123,24 @@ public class ExcelUtil {
                 Row row = sheet.createRow(rowIndex);
                 Cell cell0 = row.createCell(0);
                 cell0.setCellValue(fileBean.getFileName());
-                Cell cell1 = row.createCell(1);
-                cell1.setCellValue("第"+findStringBean.getLineIndex()+"行"); //"第"+findStringBean.getLineIndex()+"行："+findStringBean.getStart()+"-"+findStringBean.getEnd()
-                Cell cell2 = row.createCell(2);
-                cell2.setCellValue(findStringBean.getFindString());
-                Cell cell3 = row.createCell(3);
+                Cell cell2 = row.createCell(1);
+                String findString = findStringBean.getFindString();
+                if (findString.length() > 6 && findString.startsWith("t(") && findString.endsWith(")")) {
+                    String yamlKey = findString.substring(3, findString.length() - 2);
+                    cell2.setCellValue(yamlKey);
+                } else {
+                    cell2.setCellValue(findString);
+                }
+                Cell cell3 = row.createCell(2);
                 if (findStringBean.getZhString() != null) {
                     cell3.setCellValue(findStringBean.getZhString());
                 } else {
                     cell3.setCellValue(findStringBean.getFindString());
                 }
-                Cell cell4 = row.createCell(4);
+                Cell cell4 = row.createCell(3);
                 cell4.setCellValue(findStringBean.getEnString());
+                Cell cell1 = row.createCell(4);
+                cell1.setCellValue("第"+findStringBean.getLineIndex()+"行"); //"第"+findStringBean.getLineIndex()+"行："+findStringBean.getStart()+"-"+findStringBean.getEnd()
                 Cell cell5 = row.createCell(5);
                 cell5.setCellValue(findStringBean.getLineString().trim());
 
@@ -272,5 +278,56 @@ public class ExcelUtil {
             default:
                 return "";
         }
+    }
+
+    /**
+     * 获取key和语言
+     */
+    public static Map<String, LangBean> getLangBeanMap(String filePath, int rowNumStrat, int rowNumEnd) throws Exception {
+        InputStream is = new FileInputStream(filePath);
+        Workbook workbook = new XSSFWorkbook(is);
+        // 获取指定工作表
+        Sheet sheet = workbook.getSheetAt(0);
+
+        // 遍历所有行
+        Map<String, LangBean> map = new HashMap<>();
+        for (Row row : sheet) {
+            // 跳过空行
+            if (row == null) continue;
+            if (row.getRowNum() + 1 < rowNumStrat) continue;
+            if (row.getRowNum() + 1 > rowNumEnd) continue;
+//            System.out.print("第 " + (row.getRowNum() + 1) + " 行: ");
+            Cell cellKey = row.getCell(0);
+            String cellKeyValue = getCellValueAsString(cellKey);
+            LangBean langBean = null;
+            if (map.get(cellKeyValue) == null) {
+                langBean = new LangBean();
+                map.put(cellKeyValue, langBean);
+            } else {
+                langBean = map.get(cellKeyValue);
+            }
+            // 遍历前5列（索引 1-4）
+            for (int colIndex = 1; colIndex < 5; colIndex++) {
+                Cell cell = row.getCell(colIndex);
+                String cellValue = getCellValueAsString(cell);
+//                System.out.print("列" + (colIndex + 1) + ": " + cellValue + "\t");
+                if (cellValue != null && cellValue.length() > 0) {
+                    if (colIndex == 1) {
+                        langBean.setZh(cellValue);
+                    } else if (colIndex == 2){
+                        langBean.setEn(cellValue);
+                    } else if (colIndex == 3){
+                        langBean.setTr(cellValue);
+                    } else if (colIndex == 4){
+                        langBean.setId(cellValue);
+                    }
+                }
+
+            }
+//            System.out.println();
+        }
+
+        workbook.close();
+        return map;
     }
 }
